@@ -1,0 +1,23 @@
+{
+
+    "host"          :   "localhost",
+    "port"          :   8080,
+    "database"      :
+                        {
+                            "host"      :  "localhost",
+                            "user"      :  "bds_db",
+                            "password"  :  "bds@2020@demo",
+                            "port"      :   5432,
+                            "max_pool"  :   1000
+
+                        },
+    "recaptcha"     :   false,
+    "test_accounts" :   false,
+    "logs"          :
+        {
+            "enabled"   :   false,
+            "path"      :   "/var/logs"
+        }
+ 
+
+}
