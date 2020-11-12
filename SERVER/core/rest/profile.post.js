@@ -1,13 +1,14 @@
 
-const userModel  = require("../../data/model/user.model");
+const userModel  = require("../data/model/user.model");
 
 
 module.exports = 
 {
-    path:"mobile/login",
+    path:"mobile/profile",
     run (req, res) 
     {
-
+       
+        
         res.header("Access-Control-Allow-Origin", "*");
 
         // Request Format Check 
@@ -31,7 +32,7 @@ module.exports =
         }
         else
         {
-            if( user.expiredToken() )
+            if(user.expiredToken())
             {
                 res.status(400).json({
                     error : "EXPIRED-TOKEN"

@@ -1,11 +1,22 @@
 const pool =  require("../provider/pool")
 
-class admin 
+class user
 {
-  constructor(table) 
+  constructor(id)
   {
-   
+
+
+      this.username = "";
+      this.fisrtName = "";
+      this.lastName = "";
+      this.email = "";
+      this.type = "";
+
+
+      throw "USER-NOT-EXISTANT"
   }
+
+  
 
   async select(columns, clause) 
   {
@@ -16,4 +27,4 @@ class admin
 
 }
 
-module.exports = admin;
+module.exports = user;

@@ -1,14 +1,13 @@
 
-const adminModel  = require("../../data/model/admin.model");
+const userModel  = require("../data/model/user.model");
 
 
 module.exports = 
 {
-    path:"admin/login",
+    path:"mobile/login",
     run (req, res) 
     {
-       
-        
+
         res.header("Access-Control-Allow-Origin", "*");
 
         // Request Format Check 
@@ -19,7 +18,7 @@ module.exports =
             return;
         }
 
-        let admin = new adminModel(req.body.token);
+        let user = new userModel(req.body.token);
         // Request Processing 
 
         if(user.connected())
@@ -30,7 +29,21 @@ module.exports =
             })
            
         }
-        
+        else
+        {
+            if( user.expiredToken() )
+            {
+                res.status(400).json({
+                    error : "EXPIRED-TOKEN"
+                 })
+            }
+            else
+            {
+                res.status(404).end("NOT FOUND")
+            }
+            
+            
+        }
 
      
     }

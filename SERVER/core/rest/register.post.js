@@ -1,5 +1,5 @@
 
-const userModel  = require("../../data/model/user.model");
+const userModel  = require("../data/model/user.model");
 const { validator } = require("validator");
 
 module.exports = 
