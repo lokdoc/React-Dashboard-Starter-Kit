@@ -1,27 +1,32 @@
-import React, { Component } from "react";
+import React, { useState } from "react";
 import { Redirect, Switch, Route, Link } from "react-router-dom";
 import { withRouter } from "react-router";
 import "./dashboard.css";
+
+import Home from './Home/Home'
+
+
 //import Master from "./Master";
 //import Pos from "./Pos";
 //import IndexDashboard from "./IndexDashboard";
 //import NotFound from "./404";
 
 
-function Master()
+
+function MyAccount()
 {
     return(
         <div>
-            <h1> Maaster Page</h1>
+            <h1> My Account</h1>
         </div>
     )
 }
 
-function Pos()
+function Users()
 {
     return(
         <div>
-            <h1> POS Page</h1>
+            <h1> Users Management </h1>
         </div>
     )
 }
@@ -34,62 +39,83 @@ function NotFound()
         </div>
     )
 }
-class Dashboard extends Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      islogout: false
-    };
-  }
-  signOut = () => {
+
+
+
+
+export default function()
+{
+
+  const [islogout, setLogout] = useState(false)
+  
+  let match = {path:"/dashboard"}
+
+  let  signOut = () => 
+  {
     localStorage.removeItem("token");
-    this.setState({
-      islogout: true
-    });
+    setLogout(true)
   };
-  render() {
-    if (this.state.islogout) {
+
+
+
+    if (islogout) 
+    {
       return <Redirect to="/login" />;
     }
-    const { match } = this.props;
+
+
     return (
 
       <div className="dashboard">
+
+        <div className="navbar">
+
+       
         <ul>
 
           <li className="brand">
-            <Link to={`${match.path}`}>BDS</Link>
+            <Link to={`${match.path}`}>
+
+          <img src="/icons/home.svg" height="35"/>
+            </Link>
           </li>
 
-          <li>
-            <Link to={`${match.path}`}>Dashboard</Link>
+          <li className="btn">
+            <Link to={`${match.path}`}>Home</Link>
           </li>
-          <li>
-            <Link to={`${match.path}/master`}>Master</Link>
-          </li>
-          <li>
-            <Link to={`${match.path}/pos`}>Pos</Link>
+          <li className="btn">
+            <Link to={`${match.path}/users`}>Users Management</Link>
           </li>
           
           <li className="push-right">
+          <div className="dropdown">
+          <button className="dropbtn">BELAHDA LOKMENE <b>[ ADMIN ]</b></button>
+                <div className="dropdown-content">
+               
+                <Link to={`${match.path}/account`}>My Account</Link>
+                <a href="#" onClick={signOut}>Sign Out</a>
 
-               <span  onClick={this.signOut}>
-                   BELAHDA LOKMENE 
-               </span>          
+                </div>
+              </div>
+
+               
           </li>
         </ul>
+
+        </div>
         <main role="main">
           <div className="main">
             <Switch>
-              <Route path={`${match.path}/master`}>
-                <Master />
+              <Route path={`${match.path}/account`}>
+                <MyAccount />
               </Route>
-              <Route path={`${match.path}/pos`}>
-                <Pos />
+
+              <Route path={`${match.path}/users`}>
+                <Users />
               </Route>
               <Route exact path={`${match.path}`}>
                 
-                { /* <IndexDashboard /> */}
+               <Home/>
               </Route>
               <Route path="*">
                <NotFound />   
@@ -99,7 +125,5 @@ class Dashboard extends Component {
         </main>
       </div>
     );
-  }
 }
- 
-export default withRouter(Dashboard);
+

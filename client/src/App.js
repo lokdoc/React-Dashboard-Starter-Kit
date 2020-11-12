@@ -9,6 +9,7 @@ import {
   Redirect
 } from "react-router-dom";
 import ProtectedRoute from "./views/usersList/ProtectedRoute";
+import Register from "./views/register/register";
  
 
 
@@ -18,10 +19,14 @@ export default function App() {
 
       <Switch>
           <Route path="/login">
-          <Login />
-        </Route>
+            <Login />
+          </Route>
+          <Route path="/register">
+            <Register />
+          </Route>
         
-          <ProtectedRoute path="/dashboard">
+       
+        <ProtectedRoute path="/dashboard">
               <Dashboard />
         </ProtectedRoute>
 

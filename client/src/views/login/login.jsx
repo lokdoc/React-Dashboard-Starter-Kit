@@ -1,25 +1,25 @@
 import React, { useState } from "react";
 import "./login.css";
-import { Redirect } from "react-router-dom";
-
+import { Link, Redirect } from "react-router-dom";
+import TextField from "../../components/TextField/TextField"
 
 function Login()
 {
   const [isConnected, setConnected] = useState(false)
   const [username, setUsername] = useState("")
+  const [user, setUser] = useState("")
   const [password, setPassword] = useState("")
 
 
   let login = function(e)
   {
- 
+    
           if (username === "admin" && password === "admin") 
           {
               localStorage.setItem("token", "T");
               setConnected(true)
           }
-          localStorage.setItem("token", "T");
-          setConnected(true)
+         
           
           e.preventDefault();
   };
@@ -36,36 +36,20 @@ function Login()
 
           <form onSubmit={login}>
 
-              <h1>Authentification</h1>
+              <h1>Sign in</h1>
       
 
-                <div className="field">
-                    <label>Username</label><br/>
-                    <input
-                      type="text"
-                      name="username"
-                      onChange={setUsername}
-                      placeholder="Enter Username"
-                    />
+              <TextField label="Username"  onChange={setUsername}/>
+              <TextField label="Password" onChange={setPassword} type="password"/>
+              <br/>
+                
+            <input className="btn" type="submit" value="LOGIN"/>
+            <br/> <br/>
+            <span >Dont have an account ?  <Link to={`/register`}>Register now</Link> </span>
+        <br/>
+        <br/>
+        <br/>
 
-                </div>
-
-                <div className="field">
-                      <label>Mot de pass</label><br/>
-                      <input
-                        type="password"
-                        name="password"
-                        value={password}
-                        onChange={setPassword}
-                        placeholder="Enter Password"
-                      />
-                </div>
-            
-            <input className="btn" type="submit" value="CONNEXION"/>
-
-<br/>
-<br/>
-<br/>
           </form>
         </div>
     </div>
