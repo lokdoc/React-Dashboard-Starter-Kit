@@ -5,7 +5,7 @@ const https = require('https')
 const bodyParser = require('body-parser')
 const app = express()
 const logger = require('morgan');
-const port = 8080
+const port = 3000
 //const db = require('./queries')
 
 const RestAPI = require('./loader');
@@ -18,26 +18,11 @@ app.use(
 )
 app.use(logger('dev'));
 
-app.use(express.static('./client/build'));
-  
+app.get("/",function(req,res){
 
-app.use( function(req, res,next) 
-{
-     
-    if(req.path.startsWith("/api"))
-        next();
-
-    res.sendFile(path.join(__dirname + '/client/build/index.html'));
-  
-});
- 
-
-
-
-app.get('*', express.static('./client/build'));
-//app.get('*', function(req, res) { res.redirect("/") });
-
-    console.log("LOADING MAIN INDEX")
+    res.status(200)
+    .end("React-Dashboard-Starter-Kit API v0.1")
+})
 
 RestAPI.load(app).then(()=>
 {

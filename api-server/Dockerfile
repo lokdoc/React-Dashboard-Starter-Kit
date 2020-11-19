@@ -5,17 +5,11 @@ WORKDIR /usr/src/app
 
 # Install app dependencies
 COPY package*.json ./
-
 RUN npm install
-# If you are building your code for production
-# RUN npm ci --only=production
-
+RUN npm install supervisor -g
 
 # Bundle app source
 COPY . .
 
-# Build React App 
-RUN cd client && npm install && npm run build
-
-EXPOSE 8080
-CMD [ "node", "server.js" ]
+EXPOSE 3000
+CMD [ "supervisor", "server.js" ]

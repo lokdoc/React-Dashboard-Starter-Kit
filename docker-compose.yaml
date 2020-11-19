@@ -1,0 +1,27 @@
+version: "3.7"
+services: 
+  db:
+    image: postgres
+    environment: 
+      POSTGRES_DB: react-dashboard
+      POSTGRES_USER: react-dashboard
+      POSTGRES_PASSWORD: db-password
+  api:
+    build: ./api-server
+    volumes: 
+      - ./api-server:/usr/src/app/
+    ports: 
+      - 8080:3000
+    depends_on: 
+      - db
+  client:
+    build: ./client
+    volumes: 
+      - ./client:/usr/src/app/
+    ports: 
+      - 80:3000
+    depends_on: 
+      - api
+
+    
+
