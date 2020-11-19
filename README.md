@@ -18,6 +18,12 @@ git clone https://github.com/lokdoc/React-Dashboard-Starter-Kit
 cd React-Dashboard-Starter-Kit
 docker-compose up 
 ```
+### Where to edit code ? 
+The Dev-Containers are running in volumes mounted on  :
+> **API-Server**: it's mounted in ***./api-server/*** and auto refreshing when editing via ***supervisor***.
+> **Client WebApp**: it's mounted in ***./client/*** and auto refreshing when editing via ***react-scripts***.
+
+
 ### Using Docker ( Production mode )
 ```bash
 git clone https://github.com/lokdoc/React-Dashboard-Starter-Kit
