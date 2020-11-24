@@ -10,6 +10,23 @@ export const VerifyToken = async (token = null)=>
    
     return data
 }
+export const getUserType = ()=>
+{
+    let access = localStorage.getItem("access-token")
+    let pub_key = localStorage.getItem("pub_key");
+    try
+    {
+        let data = jwt.verify(access, pub_key, { algorithms: ['RS256'] });
+        return data.type
+    }
+    catch
+    {
+        return null
+    }
+    
+    
+}
+
 
 export const RefreshTokens = async function()
 {

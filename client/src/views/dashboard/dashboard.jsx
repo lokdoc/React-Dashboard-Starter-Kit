@@ -14,6 +14,7 @@ import { Bars,Audio, } from 'svg-loaders-react'
 import UsersList from '../usersList/UsersList'
 import Profile from '../Profile/Profile'
 import { Bar } from "react-chartjs-2";
+import { getUserType } from "../../utils/Verify";
 
 
 //import Master from "./Master";
@@ -33,15 +34,22 @@ function NotFound()
     )
 }
 
-
-
-
 export default function()
 {
 
   const [islogout, setLogout] = useState(false)
-  
+  const { user,setUser} = useContext(UserContext)
   let match = {path:"/dashboard"}
+
+  useEffect(async() => {
+   
+    // Updating userProfile on Context
+    let payload = await AuthentifiedFetch("/profile");
+    setUser({...payload.data, isConnected : true})
+
+  },[])
+
+
 
   let  signOut = () => 
   {
@@ -63,7 +71,7 @@ export default function()
       <div className="dashboard">
 
         <div className="navbar">
-
+    
        
         <ul>
 
@@ -77,13 +85,15 @@ export default function()
           <li className="btn">
             <Link to={`${match.path}`}>Home</Link>
           </li>
-          <li className="btn">
+
+          {user.type == "admin" ? 
+          (<li className="btn">
             <Link to={`${match.path}/users`}>Users Management</Link>
-          </li>
+          </li>):null}
           
           <li className="push-right">
           <div className="dropdown">
-          <button className="dropbtn">BELAHDA LOKMENE <b>[ ADMIN ]</b></button>
+          <button className="dropbtn">{user.lastname}  {user.firstname} <b>[ {getUserType().toUpperCase()} ]</b></button>
                 <div className="dropdown-content">
                
                 <Link to={`${match.path}/profile`}>My Account</Link>

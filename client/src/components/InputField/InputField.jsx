@@ -7,62 +7,84 @@ import "./InputField.css"
 
 
 export default function({   id,
-                            required = false,
+                            required = null,
                             label,
                             validation,
                             onChange,
                             name,
                             autocomplete="chrome-off",
                             type = "text",
+                            errorMessage = "",
                             value,
+                            pattern,
                             disabled = false
                             })
 {
 
     const [error, setError] = useState("")
 
+    // Defining Validation Patterns on DOM 
+    if(validation == "username")
+        pattern="[A-Za-z0-9._]{3,}"
+    
+    /*
+        # RFC 5322
+        We use native HTML 
+        https://emailregex.com/
+    */
+
+    if(validation == "email")
+        type="email"
+
+
+
     return (
         <div className="InputField">
             <div className="label">
                 {label} {required ? (<span className="required">*</span>):null}
             </div>
-            <input value={value} disabled={disabled} type={type} id={id} autoComplete={autocomplete} onChange={(e)=>{
+            <input  value={value} 
+                    pattern={pattern} 
+                    disabled={disabled} 
+                    type={type} 
+                    id={id} 
+                    autoComplete={autocomplete} 
+                    required={required}
+                    ref={(c) => 
+                        { 
+                            
+                        
+                       }}
+                    onChange={(e)=>{
                     
-                    if(e.target.value.length == 0)
+                   
+                   
+                    if(e.target.value &&  e.target.value.length == 0)
                     {
                         e.target.className="";
                         setError("");
                         return;
                     }
 
-                    if(validation == "email")
+                    
+                    if(e.target.checkValidity())
                     {
-                        if(validator.isEmail(e.target.value))
-                        {
-                            e.target.className = "correct"
-                            setError("")
-                        }
-                        else
-                        {
-                            e.target.className = "error"
-                            setError("Format email invalid")
-                        }
-                         
-
+                        e.target.className = "correct"
+                        setError("")
                     }
-                    if(validation == "firstname")
-                        e.target.className = e.target.value.length <= 100 ? "correct" : "error";
-                   
-                    if(validation == "lastname")
-                        e.target.className = e.target.value.length <= 100 ? "correct" : "error";
-                   
+                    else
+                    {
+                        setError(errorMessage)
+                        e.target.className = "error"
+                    }
                     
-                    if(validation == "username")
-                        e.target.className = validator.matches(e.target.value ,/[a-zA-Z0-9_.]{3,}/ ) ? "correct" : "error";
-                   
-                    
-
-
+                    // add Required Message 
+                    if(!e.target.checkValidity() && e.target.value.length == 0)
+                    {
+                        e.target.className = "error"
+                        setError("This Field is required !")
+                       
+                    }
 
                     onChange(e.target.value)
             }}/>

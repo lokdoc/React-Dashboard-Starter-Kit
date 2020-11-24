@@ -3,24 +3,30 @@ import { Redirect, Switch, Route, Link } from "react-router-dom";
 import * as SVGLoaders from 'svg-loaders-react';
 import "./Profile.css";
 
-import { UserContext, UserContextProvider} from "../../contexts/User";
+import {UserContext} from "../../contexts/User";
 import AuthentifiedFetch from "../../utils/AuthentifiedFetch"
 import { Bars} from 'svg-loaders-react'
 import InputField from "../../components/InputField/InputField";
+
+
+
+
 
 export default function ()
 {
   
   const [loading, setloading] = useState(true)
-  const [user, setUser] = useState({})
+  //const [user, setUser] = useState({})
+  const { user,setUser} = useContext(UserContext)
 
   useEffect(async ()=>
   {
     // Fetching User Data 
 
     let payload = await AuthentifiedFetch("/profile");
-    setUser(payload.data)
+    setUser({...payload.data, isConnected : true})
     setloading(false)
+    
 
 
   },[])

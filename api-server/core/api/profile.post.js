@@ -16,7 +16,27 @@ module.exports =
         if(isAuthenticated(req))
         {
             let user = await UserClass.loginByToken(req)
-         
+            
+            // Handling Removing Action 
+
+            if(req.body.remove)
+            {
+                // check if the requester is an ADMIN 
+                if(user.isAdmin())
+                {
+
+                    res.end("OK");
+                }
+                else
+                {
+                    res.status(401).end("ERROR")
+                }
+
+
+               
+
+            }
+
 
             res.json(user.getToken(
                 {

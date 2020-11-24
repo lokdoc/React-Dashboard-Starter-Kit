@@ -35,6 +35,8 @@ class user
    
 
   }
+
+
   static async createUser(username,firstname="",lastname="",email="",password)
   {
     try 
@@ -42,8 +44,8 @@ class user
       // Getting User's by checking password (BCRYPT ENCODED)
 
       const SQL = `INSERT INTO users 
-                  VALUES(CONCAT('USR_',nextval('user_id_seq')),'user',$1,$2,$3,$4,
-                  crypt($5, gen_salt('bf'))::VARCHAR);`
+                   VALUES(CONCAT('USR_',nextval('user_id_seq')),'user',$1,$2,$3,$4,
+                   crypt($5, gen_salt('bf'))::VARCHAR);`
 
 
       // ( Prepared Statement's values )
@@ -51,21 +53,22 @@ class user
 
       // Getting a client from the pool 
       const client = await pool.connect()
-      console.log("POOL LOADED")
 
-      //  Fetching results 
 
       let ret = await client.query(SQL,values);
-      console.log("POOL LOADED")
 
         // if we found the user's credentials are correct 
         if( ret.rowCount > 0 )
         {
+          // Get new User 
+          ret = await client.query("SELECT * FROM users WHERE username= $1 ",[username]);
+
           // Disconnect DB
           client.release()
-
+          ret = new this(ret.rows[0])
+          console.log(ret)
           // Return User
-          return new this(ret.rows[0])
+          return ret
         }
      
        client.release()
@@ -73,8 +76,8 @@ class user
     }
     catch (err) 
     {
-      console.log(err.stack)
-      throw "BAD-LOGIN"
+     
+      throw "USER-EXISTS-ALREADY"
     }
   }
 

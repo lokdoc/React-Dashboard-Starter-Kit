@@ -71,7 +71,8 @@ export default function (){
   const [errMessage, setErrMessage] = useState("")
   const [modalIsOpen,setIsOpen] = React.useState(false);
 
-  const { user,setUser} = useContext(UserContext)
+  const {user,setUser} = useContext(UserContext)
+  
   let History = useHistory()
 
   if (isConnected()) 
@@ -94,8 +95,9 @@ export default function (){
              
               if(!err)
               {
+                  setUser({isConnected:true})
                   History.push("/")
-               
+                  
               }
               else
               {

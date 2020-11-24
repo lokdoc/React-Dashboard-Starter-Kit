@@ -1,46 +1,53 @@
-import {createContext,useState} from 'react'
+import {createContext,useState,useEffect} from 'react'
 var jwt = require('jsonwebtoken');
-
+import { isConnected,getUserType,RefreshTokens } from "../utils/Verify"
+import AuthentifiedFetch from "../utils/AuthentifiedFetch"
+// Defining Instance user status 
+var USER_STATUS = { isConnected : false }
 
 // Initializing and exporting User's context 
 export const UserContext = createContext()
 
 // Initializing and exporting context provider 
-
-
 export const UserContextProvider =  (props) =>
-{
+{ 
+    
+    const [user, setUser] = useState(USER_STATUS)
     
 
-    // Initializing user status 
+    useEffect( async () =>{
+        console.log("Effect Context Triggred ")
+        let connected = isConnected();
+        if(connected)
+        {
+            setUser( { 
+           
+                isConnected:isConnected(),
+                type : getUserType()
+            })
+           
+            try
+            {
+                let payload = await AuthentifiedFetch("/profile");
+                setUser({...payload.data, isConnected : true})
+                console.log("Profile Loaded")
+            }
+            catch(e)
+            {
+                console.log("Failed to load profile")
+            }
+        }
 
-    let INIT_USER = { isConnected : false }
+        
+      
 
-    // Checking if there is traces of old authentification
+       USER_STATUS = user;
+    }, [])
 
-    let LocalToken = localStorage.getItem("token");
-    let ServerKey  = localStorage.getItem("pub_key");
+
     
-    // if a token found 
-    if( LocalToken && ServerKey )
-    {
-        // decoding token to init user's state 
-        INIT_USER = jwt.verify(LocalToken, ServerKey);
-        INIT_USER.isConnected = true
-
-    } 
-
-    // Intializing user's state 
-
-    const [user, setUser] = useState(INIT_USER)
-
-    function EditUser(val)
-    {
-        setUser(val)
-    }
-
     return (
-        <UserContext.Provider value={{user,setUser,EditUser}}>
+        <UserContext.Provider value={{user,setUser}}>
             {props.children}
         </UserContext.Provider>
     )

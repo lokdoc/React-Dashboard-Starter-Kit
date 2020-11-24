@@ -5,7 +5,7 @@ const  validator = require("validator");
 module.exports = 
 {
     path:"register",
-    run (req, res) 
+    async run(req, res) 
     {
         res.header("Access-Control-Allow-Origin", "*");
 
@@ -35,30 +35,34 @@ module.exports =
             res.status(400).end("BAD-REQUEST") 
             return
         }
+
+       
       
         try
         {
             let form = req.body
-            let user = UserClass.createUser( req.body.username
+            let user = await UserClass.createUser(  req.body.username
                                              ,req.body.firstname
                                              ,req.body.lastname
                                              ,req.body.email
                                              ,req.body.password
                                              )
 
+                            console.log(user)
             let access_token = user.getAccessToken()
             let refresh_token = user.getRefreshToken()
-    
+                
               res.status(200).json(
                 {
                     "access-token" : access_token,
                     "refresh-token" : refresh_token
-                })
+                }).end()
         
         }
         catch(err)
         {
-            res.status(400).end(err) 
+            console.log(err)
+            res.status(403).end(err) 
         }
      
     }

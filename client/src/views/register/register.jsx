@@ -1,11 +1,13 @@
 import React, { useState } from "react";
-const validator = require('validator');
-
 import "./register.css";
-import { Link, Redirect } from "react-router-dom";
-import {UserContext,UserContextProvider } from "../../contexts/User"
+import { Link, Redirect,useHistory } from "react-router-dom";
 import InputField from "../../components/InputField/InputField";
+import { VerifyToken, getPublicKey, isConnected } from "../../utils/Verify"
+const config = require("../../config.json")
 
+
+
+const API_HOST = config.host + ":" + config.port 
 
 export default function()
 {
@@ -15,20 +17,69 @@ export default function()
   const [email,     setEmail]     = useState("");
   const [username,  setUsername]  = useState("");
   const [password,  setPassword]  = useState("");
-
+  const  History = useHistory()
   
-  const register_action = function(e)
+  const register_action = async function(e)
   {
+    e.preventDefault();
      
      /*
       - Validation happen here 
       - Why ? 
       - in order to show errors to the user and allow him to correct them :)
      */
+    let form = 
+    { 
+      username : username,
+      password : password,
+      firstname : firstname,
+      lastname  : lastname,
+      email : email
+    }
+       
+     try
+     {
+      const requestOptions = 
+      {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json'},
+          body: JSON.stringify(form)
+      };
     
+    let response  = await fetch( API_HOST + "/register", requestOptions) ;
+      
+        if( response.status == 200)
+        {
+            response = await response.json();
+            let access  = await VerifyToken(response["access-token"])
+            let refresh = await VerifyToken(response["refresh-token"])
 
-    
-    e.preventDefault();
+            if(access && refresh)
+            {
+              
+              console.log(access)
+                localStorage.setItem("access-token" ,response["access-token"])
+                localStorage.setItem("refresh-token" ,response["refresh-token"])
+
+                History.push("/")
+            }
+        
+        }
+        if( response.status == 403)
+        {
+           alert("USER-EXISTS")
+        }
+      
+
+    }
+    catch(err)
+    {
+        console.log(err)
+        // If an error encontred, sending to callback of errors to handle UI 
+        alert("SERVER-ERROR")
+    }
+
+   
   }
 
 
@@ -47,12 +98,12 @@ export default function()
 
               <h1>Register</h1>
             
-              <InputField  required={true} onChange={setUsername}   validation="username" label="Username" type="text"/> 
-              <InputField  required={true} onChange={setPassword}   label="Password" type="password"/>
+              <InputField  onChange={setUsername}   label="Username"  validation="username"required={true} /> 
+              <InputField  onChange={setPassword}   label="Password"  type="password" required={true} />
 
-              <InputField  onChange={setEmail}      validation="email"  label="Email" type="text"/>
-              <InputField  onChange={setFirstname}  label="First Name" type="text"/>
-              <InputField  onChange={setLastname}   label="Last Name" type="text"/>
+              <InputField  onChange={setEmail}      label="Email"     validation="email" errorMessage="Please enter correct email format" />
+              <InputField  onChange={setFirstname}  label="First Name" />
+              <InputField  onChange={setLastname}   label="Last Name" />
               
              
               <br/>

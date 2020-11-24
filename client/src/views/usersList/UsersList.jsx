@@ -19,10 +19,13 @@ export default function()
   useEffect(async ()=>
   {
     // Fetching User Data 
-     setloading(true)
+    
+    setloading(true)
+    
     let payload = await AuthentifiedFetch("/users");
-    console.log(payload)
+    
     setUsers(payload)
+    
     setloading(false)
 
   },[])
