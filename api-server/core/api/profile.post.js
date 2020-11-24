@@ -25,7 +25,15 @@ module.exports =
                 if(user.isAdmin())
                 {
 
-                    res.end("OK");
+                    UserClass.removeById(req.body.remove)
+
+                    res.json(user.getToken(
+                        {
+                            data:
+                            {
+                                "action":"done"    
+                            }
+                         }));
                 }
                 else
                 {

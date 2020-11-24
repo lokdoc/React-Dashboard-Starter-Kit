@@ -11,10 +11,9 @@ import "./UsersList.css"
 export default function()
 {
   
-  const [loading, setloading] = useState(true)
-  const [users, setUsers] = useState([])
-
-
+  const [ loading, setloading] = useState(true)
+  const [ users, setUsers] = useState([])
+  const { user,setUser} = useContext(UserContext)
 
   useEffect(async ()=>
   {
@@ -31,11 +30,19 @@ export default function()
   },[])
 
 
+  async function RemoveUser(id)
+  {
+      
+    let payload = await AuthentifiedFetch("/profile",{ remove : id });
+    setUsers( users.filter( u => u.id != id ))
+
+  }
+
+
   function GenerateList(array)
   {
       let items = array.map((i,index)=>{
          let id =i.id
-
          
         return(
         <tr key={id}>
@@ -47,10 +54,13 @@ export default function()
             <td>
               
                 
-                <span className="icon-button">
+               { user.id != id ?
+                ( 
+                <span onClick={e => RemoveUser(id) } className="icon-button">
                      <img height={20} src="/icons/remove-user.svg"/>
                 </span>
-                
+                ):null
+                }
                
             </td>
         </tr>)
@@ -91,14 +101,14 @@ export default function()
   if(loading)
   return(
     <div className="loading">
-                 <Bars fill="brown" />
+        <Bars fill="brown" />
     </div>
   )
   else
   return(
         <div className="users_list">
             <h1> Users Management </h1>
-          
+           {JSON.stringify(user)}
 
               <div className="center">
 

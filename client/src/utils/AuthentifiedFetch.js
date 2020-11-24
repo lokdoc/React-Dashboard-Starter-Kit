@@ -30,7 +30,7 @@ const FetchAction = async function(URL)
 
 }
 
-export default  async function AuthentifiedFetch(URL)
+export default  async function AuthentifiedFetch( URL , body = {})
 {
     let access = localStorage.getItem("access-token")
     let pub_key = await getPublicKey()
@@ -46,6 +46,7 @@ export default  async function AuthentifiedFetch(URL)
               'Content-Type': 'application/json',
               "Authorization" : "Bearer "+access
             },
+            body:JSON.stringify(body)
         })
         response = await response.json()
      

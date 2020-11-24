@@ -2,7 +2,7 @@ const pool   =  require("../provider/pool")
 const config =  require("../../../config.json")
 const fs = require('fs')
 var jwt = require('jsonwebtoken');
-
+const privateKey = fs.readFileSync(__dirname+'/../../../private.key');
 
 class user
 {
@@ -11,8 +11,6 @@ class user
   // User constructor 
   constructor( param )
   {
-
-   
           this.id = param.id
           this.type = param.type
           this.username = param.username
@@ -36,6 +34,35 @@ class user
 
   }
 
+  // it remove user from database [ PHYSICALY ]
+  static async removeById(id)
+  {
+    const client = await pool.connect()
+    try
+    {
+       let ret = await client.query(`SELECT id FROM users where id = $1 `,[id]);
+       if(ret.rowCount > 0 )
+       {
+          let ret = await client.query(`DELETE FROM users where id = $1 `,[id]);
+          return;
+       }
+       else
+       {
+          client.release()
+          throw "USER-NOT-FOUND"
+       }
+     
+
+       
+    }
+    catch(e)
+    {
+      throw "SERVER-ERROR"
+      client.release()
+    }
+
+
+  }
 
   static async createUser(username,firstname="",lastname="",email="",password)
   {
@@ -66,7 +93,7 @@ class user
           // Disconnect DB
           client.release()
           ret = new this(ret.rows[0])
-          console.log(ret)
+          
           // Return User
           return ret
         }
@@ -76,7 +103,6 @@ class user
     }
     catch (err) 
     {
-     
       throw "USER-EXISTS-ALREADY"
     }
   }
@@ -89,7 +115,7 @@ class user
   getToken(data)
   {
    
-    var privateKey = fs.readFileSync(__dirname+'/../../../private.key');
+    
     var token = jwt.sign({
       data: data,
       uid : this.id,
@@ -99,10 +125,14 @@ class user
   }
 
   
+  removeById(id)
+  {
+
+  }
+
+
   getAccessToken(data)
   {
-   
-    var privateKey = fs.readFileSync(__dirname+'/../../../private.key');
     var token = jwt.sign({
       type : this.type,
       key  : "access",
@@ -114,8 +144,6 @@ class user
 
   getRefreshToken(data)
   {
-   
-    var privateKey = fs.readFileSync(__dirname+'/../../../private.key');
     var token = jwt.sign({
       type : this.type,
       key  : "refresh",
