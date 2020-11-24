@@ -18,8 +18,8 @@ export default function ()
   {
     // Fetching User Data 
 
-    let data = await AuthentifiedFetch("/profile");
-    setUser(data)
+    let payload = await AuthentifiedFetch("/profile");
+    setUser(payload.data)
     setloading(false)
 
 

@@ -21,6 +21,20 @@ class user
           this.email = param.email
   }
 
+  static async getAllUsers()
+  {
+
+      const SQL = `SELECT id,username,firstname,lastname,email FROM users`
+      const client = await pool.connect()
+  
+      //  Fetching results 
+
+     let ret = await client.query(SQL);
+     client.release()
+     return ret.rows
+   
+
+  }
   static async createUser(username,firstname="",lastname="",email="",password)
   {
     try 
@@ -30,6 +44,7 @@ class user
       const SQL = `INSERT INTO users 
                   VALUES(CONCAT('USR_',nextval('user_id_seq')),'user',$1,$2,$3,$4,
                   crypt($5, gen_salt('bf'))::VARCHAR);`
+
 
       // ( Prepared Statement's values )
       const values = [username,firstname,lastname,email,password];
@@ -42,7 +57,7 @@ class user
 
       let ret = await client.query(SQL,values);
       console.log("POOL LOADED")
-      
+
         // if we found the user's credentials are correct 
         if( ret.rowCount > 0 )
         {
@@ -73,7 +88,7 @@ class user
    
     var privateKey = fs.readFileSync(__dirname+'/../../../private.key');
     var token = jwt.sign({
-      ...data,
+      data: data,
       uid : this.id,
       exp: Math.floor(Date.now() / 1000) + ( config.jwt["access-token"]["expiration-minutes"] * 60),
     }, privateKey, { algorithm: 'RS256' });

@@ -6,7 +6,7 @@ const isAuthenticated  = require("../data/utils/isAuthenticated");
 
 module.exports = 
 {
-    path:"profile",
+    path:"users",
     async run (req, res) 
     {
        
@@ -17,18 +17,17 @@ module.exports =
         {
             let user = await UserClass.loginByToken(req)
          
-
-            res.json(user.getToken(
-                {
-                    data:{
-                            id : user.id,
-                            type : user.type,
-                            username : user.username,
-                            firstname : user.firstname,
-                            lastname : user.lastname,
-                            email : user.email
-                        }
-                 }));
+            if(user.isAdmin())
+            {
+                let users = await UserClass.getAllUsers() ;
+                res.json(user.getToken(users));
+            }
+            else
+            {
+                res.status(403)
+                .end("REQUIRED-PRIVILEGES") 
+            }
+          
 
         }
         else
@@ -36,5 +35,6 @@ module.exports =
             res.status(401)
             .end("BAD-TOKEN") 
         }
+       
     }
 }

@@ -1,32 +1,41 @@
 
 
-import React, { useState , useContext} from "react";
+import React, { useState ,useEffect, useContext} from "react";
 import "./UsersList.css";
 
 import { UserContext } from "../../contexts/User";
-
+import { Bars} from 'svg-loaders-react'
+import AuthentifiedFetch from "../../utils/AuthentifiedFetch"
+import "./UsersList.css"
 
 export default function()
 {
-  const {user,setUser} = useContext(UserContext)
+  
+  const [loading, setloading] = useState(true)
+  const [users, setUsers] = useState([])
 
-  const DUMMY = [
-      { id : "ADM-001" , username:"LOKDOC" ,firstname : "Belahda" , lastname : "lokmene", email:"lokdoc@hotmail.fr" },
-      { id : "ADM-001" , username:"LOKDOC" ,firstname : "Belahda" , lastname : "lokmene", email:"lokdoc@hotmail.fr" },
-      { id : "ADM-001" , username:"LOKDOC" ,firstname : "Belahda" , lastname : "lokmene", email:"lokdoc@hotmail.fr" },
-      { id : "ADM-001" , username:"LOKDOC" ,firstname : "Belahda" , lastname : "lokmene", email:"lokdoc@hotmail.fr" },
-      { id : "ADM-001" , username:"LOKDOC" ,firstname : "Belahda" , lastname : "lokmene", email:"lokdoc@hotmail.fr" }
-  ]
 
+
+  useEffect(async ()=>
+  {
+    // Fetching User Data 
+     setloading(true)
+    let payload = await AuthentifiedFetch("/users");
+    console.log(payload)
+    setUsers(payload)
+    setloading(false)
+
+  },[])
 
 
   function GenerateList(array)
   {
       let items = array.map((i,index)=>{
          let id =i.id
+
          
         return(
-        <tr key={index}>
+        <tr key={id}>
             <td>{id}</td>
             <td>{i.username}</td>
             <td>{i.firstname}</td>
@@ -74,14 +83,23 @@ export default function()
         
   }
 
-    return(
+
+
+  if(loading)
+  return(
+    <div className="loading">
+                 <Bars fill="brown" />
+    </div>
+  )
+  else
+  return(
         <div className="users_list">
             <h1> Users Management </h1>
           
 
               <div className="center">
 
-                  { GenerateList(DUMMY)}
+                  { GenerateList(users)}
               </div>
              
 

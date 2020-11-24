@@ -17,10 +17,10 @@
     "jwt"           : 
                         {
                             "access-token" :  {
-                                                 "expiration-minutes" : 1
+                                                 "expiration-minutes" : 30
                                               },
                             "refresh-token" : {
-                                                "expiration-minutes" : 5
+                                                "expiration-minutes" : 120
                                               }
                         },
     "recaptcha"     :   false,
