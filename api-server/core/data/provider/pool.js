@@ -1,12 +1,16 @@
 
 const { Pool } = require('pg')
+const config = require('../../../config.json');
+
+// Database Pool Initilizing based on project Config  
+
 module.exports = new Pool({
-    host: 'localhost',
-    user: 'sordipay_ws',
-    database: 'sordipay',
-    password: 'sordi@#pay@#2020@#',
-    port: 5432,
-    max: 1000,
-    idleTimeoutMillis: 30000,
-    connectionTimeoutMillis: 2000,
+    host:       config.database.host,
+    user:       config.database.user,
+    database:   config.database.database,
+    password:   config.database.password,
+    port:       config.database.port,
+    max:        config.database.max_pool,
+    idleTimeoutMillis:        config.database.max_pool.idleTimeoutMillis,
+    connectionTimeoutMillis:  config.database.max_pool.connectionTimeoutMillis
   })

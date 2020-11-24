@@ -1,39 +1,61 @@
 import React, { useState } from "react";
+const validator = require('validator');
+
 import "./register.css";
 import { Link, Redirect } from "react-router-dom";
-import TextField from "../../components/TextField/TextField"
+import {UserContext,UserContextProvider } from "../../contexts/User"
+import InputField from "../../components/InputField/InputField";
+
 
 export default function()
 {
 
-  let register = function(e)
-  {
-    
-          e.preventDefault();
-  };
-  
+  const [firstname, setFirstname] = useState("");
+  const [lastname,  setLastname]  = useState("");
+  const [email,     setEmail]     = useState("");
+  const [username,  setUsername]  = useState("");
+  const [password,  setPassword]  = useState("");
 
-  if (localStorage.getItem("token")) {
-    return <Redirect to="/" />;
+  
+  const register_action = function(e)
+  {
+     
+     /*
+      - Validation happen here 
+      - Why ? 
+      - in order to show errors to the user and allow him to correct them :)
+     */
+    
+
+    
+    e.preventDefault();
   }
+
+
+  if (localStorage.getItem("token")) 
+  {
+      return <Redirect to="/" />;
+  }
+
   return (
     <div className="container">
 
 
-        <div className="login_container">
+        <div className="register_container">
 
-          <form onSubmit={register}>
+          <form onSubmit={register_action} autoComplete="off">
 
               <h1>Register</h1>
-      
-             
-              <TextField label="First Name" type="text"/>
-              <TextField label="Last Name" type="text"/>
-              <TextField label="Email" type="text"/>
-              <TextField label="Username" type="text"/> 
-              <TextField label="Password" type="password"/>
-              <TextField label="Confirm Password" type="password"/>
+            
+              <InputField  required={true} onChange={setUsername}   validation="username" label="Username" type="text"/> 
+              <InputField  required={true} onChange={setPassword}   label="Password" type="password"/>
 
+              <InputField  onChange={setEmail}      validation="email"  label="Email" type="text"/>
+              <InputField  onChange={setFirstname}  label="First Name" type="text"/>
+              <InputField  onChange={setLastname}   label="Last Name" type="text"/>
+              
+             
+              <br/>
               <br/>
                 
             <input className="btn" type="submit" value="Register"/>

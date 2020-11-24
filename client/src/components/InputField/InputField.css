@@ -1,0 +1,56 @@
+.InputField
+{
+    text-align: left;
+    display: inline-block;
+    width:100%;
+
+}
+.InputField .label
+{
+    text-align: left;
+    width:100%;
+    margin-top: 10px;
+
+}
+.InputField input
+{
+   border-radius: 0;
+    outline: 0;
+    width:100%;
+    font-size: 18px;
+    border: 1px solid #DDD;
+    padding: 5px;
+    display: inline-block;
+
+
+
+}
+.InputField input:focus
+{
+    border: 1px solid black;
+
+}
+
+
+.InputField input.error , .InputField input.error:focus
+{
+    border: 1px solid red;
+}
+
+
+.InputField input.correct , .InputField input.correct:focus
+{
+    border: 1px solid lime;
+}
+
+.InputField span.error_info
+{
+    font-size: 10px;
+    margin-top: -20px;
+    color:red;
+}
+.required
+{
+    color:red;
+}
+

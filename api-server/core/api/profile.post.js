@@ -1,51 +1,40 @@
 
-const userModel  = require("../data/model/user.model");
+const UserClass  = require("../data/model/user");
+const isAuthenticated  = require("../data/utils/isAuthenticated");
+
 
 
 module.exports = 
 {
-    path:"mobile/profile",
-    run (req, res) 
+    path:"profile",
+    async run (req, res) 
     {
        
         
-        res.header("Access-Control-Allow-Origin", "*");
-
-        // Request Format Check 
-
-        if( ! ( req.body.token ) )
+        res.header("Access-Control-Allow-Origin", "*");  
+        
+        if(isAuthenticated(req))
         {
-            res.status(404).end("ERROR")
-            return;
-        }
+            let user = await UserClass.loginByToken(req)
+         
 
-        let user = new userModel(req.body.token);
-        // Request Processing 
+            res.json(user.getToken(
+                {
+                    data:{
+                            id : user.id,
+                            type : user.type,
+                            username : user.username,
+                            firstname : user.firstname,
+                            lastname : user.lastname,
+                            email : user.email
+                        }
+                 }));
 
-        if(user.connected())
-        {   
-            res.status(200).json({
-               profile : user.getProfile(),
-               token   : user.getToken()
-            })
-           
-        }
+     }
         else
         {
-            if(user.expiredToken())
-            {
-                res.status(400).json({
-                    error : "EXPIRED-TOKEN"
-                 })
-            }
-            else
-            {
-                res.status(404).end("NOT FOUND")
-            }
-            
-            
+            res.status(401)
+            .end("BAD-TOKEN") 
         }
-
-     
     }
 }

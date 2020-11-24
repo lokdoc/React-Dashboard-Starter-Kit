@@ -1,9 +1,19 @@
-import React, { useState } from "react";
+import React, { useState , useContext, useEffect} from "react";
 import { Redirect, Switch, Route, Link } from "react-router-dom";
-import { withRouter } from "react-router";
+import * as SVGLoaders from 'svg-loaders-react';
 import "./dashboard.css";
 
 import Home from './Home/Home'
+import { UserContext, UserContextProvider} from "../../contexts/User";
+
+import AuthentifiedFetch from "../../utils/AuthentifiedFetch"
+
+import { Bars,Audio, } from 'svg-loaders-react'
+
+// Views Loading 
+import UsersList from '../usersList/UsersList'
+import Profile from '../Profile/Profile'
+import { Bar } from "react-chartjs-2";
 
 
 //import Master from "./Master";
@@ -13,23 +23,6 @@ import Home from './Home/Home'
 
 
 
-function MyAccount()
-{
-    return(
-        <div>
-            <h1> My Account</h1>
-        </div>
-    )
-}
-
-function Users()
-{
-    return(
-        <div>
-            <h1> Users Management </h1>
-        </div>
-    )
-}
 
 function NotFound()
 {
@@ -52,7 +45,8 @@ export default function()
 
   let  signOut = () => 
   {
-    localStorage.removeItem("token");
+    localStorage.removeItem("access-token");
+    localStorage.removeItem("refresh-token");
     setLogout(true)
   };
 
@@ -92,7 +86,7 @@ export default function()
           <button className="dropbtn">BELAHDA LOKMENE <b>[ ADMIN ]</b></button>
                 <div className="dropdown-content">
                
-                <Link to={`${match.path}/account`}>My Account</Link>
+                <Link to={`${match.path}/profile`}>My Account</Link>
                 <a href="#" onClick={signOut}>Sign Out</a>
 
                 </div>
@@ -105,22 +99,23 @@ export default function()
         </div>
         <main role="main">
           <div className="main">
-            <Switch>
-              <Route path={`${match.path}/account`}>
-                <MyAccount />
-              </Route>
 
-              <Route path={`${match.path}/users`}>
-                <Users />
-              </Route>
-              <Route exact path={`${match.path}`}>
-                
-               <Home/>
-              </Route>
-              <Route path="*">
-               <NotFound />   
-              </Route>
-            </Switch>
+                <Switch>
+                  <Route path={`${match.path}/profile`}>
+                    <Profile />
+                  </Route>
+
+                  <Route path={`${match.path}/users`}>
+                    <UsersList />
+                  </Route>
+                  <Route exact path={`${match.path}`}>
+                    
+                  <Home/>
+                  </Route>
+                  <Route path="*">
+                  <NotFound />   
+                  </Route>
+                </Switch>
           </div>
         </main>
       </div>

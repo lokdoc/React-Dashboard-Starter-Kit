@@ -3,9 +3,20 @@ services:
   db:
     image: postgres
     environment: 
-      POSTGRES_DB: react-dashboard
-      POSTGRES_USER: react-dashboard
-      POSTGRES_PASSWORD: db-password
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your-db-master-password
+    volumes: 
+            - ./db/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+  pgadmin-compose:
+      image: dpage/pgadmin4
+      environment: 
+          PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+          PGADMIN_DEFAULT_PASSWORD: "admin"
+      ports: 
+          - "16543:80"
+      depends_on: 
+          - db    
   api:
     build: ./api-server
     volumes: 
@@ -22,6 +33,4 @@ services:
       - 80:3000
     depends_on: 
       - api
-
-    
-
+ 

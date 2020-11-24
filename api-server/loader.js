@@ -44,7 +44,7 @@ async function load(app,path="")
                     // route.run  : running function
 
                     console.log(`[+] Loading API-ROUTE : [${route.method}]${route.path}`)
-                    app[route.method]("/api/"+route.path,route.run); 
+                    app[route.method]("/"+route.path,route.run); 
                 })
       
         })

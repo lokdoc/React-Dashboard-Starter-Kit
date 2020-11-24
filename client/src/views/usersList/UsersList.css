@@ -1,0 +1,60 @@
+
+
+.users_list table
+{
+    border-collapse: collapse;
+    display: inline-block
+}
+
+.users_list table tr:hover
+{
+   background-color: #DDD;
+   
+
+}
+
+.users_list table tr
+{
+   background-color: #FFF;
+   cursor: pointer;
+
+}
+
+
+.users_list table .icon-button
+{
+  
+    cursor: pointer;
+    background-color: #333;
+    height: 30px;
+    width: 40px;
+    display: inline-block;
+    border-radius: 20px;
+    padding-top:10px;
+    transition: 0.3s;
+}
+.users_list table .icon-button:hover
+{
+    background-color: #777;
+    transition: 0.3s;
+}
+
+.users_list .center
+{
+    text-align: center;
+}
+
+.users_list table
+{
+    display: inline-block
+}
+
+.users_list table th
+{
+    padding:10px
+}
+
+.users_list table td
+{
+    padding:5px
+}

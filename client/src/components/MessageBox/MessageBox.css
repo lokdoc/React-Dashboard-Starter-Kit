@@ -1,0 +1,61 @@
+
+
+.messagebox
+{
+ 
+    
+}
+
+.messagebox h1
+{
+ 
+    font-size: 32px;    
+}
+
+
+.messagebox p
+{
+ 
+    font-size: 12px;    
+}
+
+
+.messagebox .header img
+{
+  display: inline-block;
+}
+.messagebox .header
+{
+    padding: 20px;
+    background-color: brown;
+    text-align: center;
+}
+
+.messagebox .body
+{
+    margin-bottom: 40px;
+}
+.messagebox input[type="button"]
+{
+    text-align: center;
+    font-size: 18px;
+    border: 0;
+    padding: 5px;
+    
+    display: inline-block;
+    height: 40px;
+    width: 100%;
+    padding-left: 20px;
+    padding-right: 20px;
+    cursor: pointer;
+    outline:0;
+    background-color: #EEE;
+    color:#333
+
+}
+.messagebox input[type="button"]:hover
+{
+    background-color: #DDD;
+    cursor: pointer;
+
+}

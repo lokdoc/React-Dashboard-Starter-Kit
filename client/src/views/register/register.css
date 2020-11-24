@@ -1,0 +1,13 @@
+
+.register_container
+{
+    background-color: #FFF;
+    font-family: Montserrat;
+    color:#333;
+    padding: 20px;
+    display: inline-block;
+    margin-top: 100px;
+    text-align: center;
+    width: 400px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.3);
+}

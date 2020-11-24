@@ -5,7 +5,9 @@ const https = require('https')
 const bodyParser = require('body-parser')
 const app = express()
 const logger = require('morgan');
-const port = 3000
+const cors = require('cors');
+const config = require('./config.json');
+const port = config.port
 //const db = require('./queries')
 
 const RestAPI = require('./loader');
@@ -17,6 +19,8 @@ app.use(
   })
 )
 app.use(logger('dev'));
+app.use(cors());
+
 
 app.get("/",function(req,res){
 
