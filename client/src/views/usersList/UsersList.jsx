@@ -108,7 +108,7 @@ export default function()
   return(
         <div className="users_list">
             <h1> Users Management </h1>
-           {JSON.stringify(user)}
+          
 
               <div className="center">
 
