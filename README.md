@@ -32,7 +32,7 @@ docker-compose -f docker-compose.production.yaml up
 ```
 #### Run it !
 
-To run it go to http://localhost:80/
+To run it go to http://localhost:3000/
 for the API is in http://localhost:8080/ (in dev mode )
 
 Default credentials are  :
@@ -40,7 +40,7 @@ Default credentials are  :
 	Username : admin
 	Password : admin
 
-> **Note:**  if port 80 is already in use, you can change it in docker-compose.production.yaml for ***Production mode*** OR docker-compose.yaml in ***Development mode***.
+> **Note:**  if port 3000 is already in use, you can change it in docker-compose.production.yaml for ***Production mode*** OR docker-compose.yaml in ***Development mode***.
 
 
 
