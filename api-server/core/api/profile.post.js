@@ -34,10 +34,21 @@ module.exports =
                                 "action":"done"    
                             }
                          }));
+
+                    return;
                 }
                 else
                 {
-                    res.status(401).end("ERROR")
+                    if( req.body.remove == user.id )
+                    {
+                        // Remove itself 
+                        UserClass.removeById(req.body.remove)
+                    }
+                    else
+                    {
+                        res.status(401).end("ERROR")
+                    }
+                   
                 }
 
 

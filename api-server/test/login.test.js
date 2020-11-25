@@ -6,9 +6,6 @@
 // Login as user 
 
 
-
-
-
 // Request Data as User 
 
 
@@ -16,12 +13,10 @@
 
 
 
-
 // Login as Admin 
 
 
-// Reqest  User Data  as Admin 
-
+// Reqest User Data  as Admin 
 
 // Request as Admin 
 
