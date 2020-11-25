@@ -13,7 +13,7 @@ export default function()
   
   const [ loading, setloading] = useState(true)
   const [ users, setUsers] = useState([])
-  const { user,setUser} = useContext(UserContext)
+  const {user} = useContext(UserContext)
 
   useEffect(async ()=>
   {

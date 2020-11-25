@@ -14,7 +14,6 @@ const API_HOST = config.host + ":" + config.port
 const loginUser = async (username, password , callback )=>
 {
 
-
     const requestOptions = 
     {
         method: 'POST',
@@ -64,18 +63,19 @@ const loginUser = async (username, password , callback )=>
 }
 
 
-export default function (){
+export default function ()
+{
   const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   
   const [errMessage, setErrMessage] = useState("")
   const [modalIsOpen,setIsOpen] = React.useState(false);
 
-  const {user,setUser} = useContext(UserContext)
+  const {user,setUser,UpdateUserStates} = useContext(UserContext)
   
   let History = useHistory()
 
-  if (isConnected()) 
+  if (user.isConnected) 
   {
       return <Redirect to="/dashboard" />;
   }
@@ -96,12 +96,13 @@ export default function (){
               if(!err)
               {
                   setUser({isConnected:true})
-                  History.push("/")
-                  
+                  UpdateUserStates()
+
               }
               else
               {
                 setErrMessage(err)
+                // Shows the Error Dialog 
                 setIsOpen(true);
            
               }

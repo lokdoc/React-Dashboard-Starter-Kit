@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import "./register.css";
 import { Link, Redirect,useHistory } from "react-router-dom";
 import InputField from "../../components/InputField/InputField";
 import { VerifyToken, getPublicKey, isConnected } from "../../utils/Verify"
+import {UserContext} from "../../contexts/User";
 const config = require("../../config.json")
 
 
@@ -18,7 +19,9 @@ export default function()
   const [username,  setUsername]  = useState("");
   const [password,  setPassword]  = useState("");
   const  History = useHistory()
-  
+  const {UpdateUserStates} = useContext(UserContext)
+
+
   const register_action = async function(e)
   {
     e.preventDefault();
@@ -57,11 +60,11 @@ export default function()
             if(access && refresh)
             {
               
-              console.log(access)
+               
                 localStorage.setItem("access-token" ,response["access-token"])
                 localStorage.setItem("refresh-token" ,response["refresh-token"])
-
-                History.push("/")
+                History.push("/dashboard")
+                UpdateUserStates()
             }
         
         }

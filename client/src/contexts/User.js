@@ -8,6 +8,12 @@ var USER_STATUS = { isConnected : false }
 // Initializing and exporting User's context 
 export const UserContext = createContext()
 
+
+
+
+
+
+
 // Initializing and exporting context provider 
 export const UserContextProvider =  (props) =>
 { 
@@ -15,8 +21,9 @@ export const UserContextProvider =  (props) =>
     const [user, setUser] = useState(USER_STATUS)
     
 
-    useEffect( async () =>{
-        console.log("Effect Context Triggred ")
+    async function UpdateUserStates()
+    {
+        console.log("Update User State Triggred")
         let connected = isConnected();
         if(connected)
         {
@@ -31,6 +38,7 @@ export const UserContextProvider =  (props) =>
                 let payload = await AuthentifiedFetch("/profile");
                 setUser({...payload.data, isConnected : true})
                 console.log("Profile Loaded")
+
             }
             catch(e)
             {
@@ -38,16 +46,20 @@ export const UserContextProvider =  (props) =>
             }
         }
 
-        
-      
+       USER_STATUS = user; 
+    }
 
-       USER_STATUS = user;
+    useEffect( async () =>
+    {
+        console.log("Effect Context Triggred ")
+        await UpdateUserStates();
+
     }, [])
 
 
     
     return (
-        <UserContext.Provider value={{user,setUser}}>
+        <UserContext.Provider value={{user,setUser,UpdateUserStates}}>
             {props.children}
         </UserContext.Provider>
     )

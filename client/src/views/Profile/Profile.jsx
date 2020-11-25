@@ -15,21 +15,8 @@ import InputField from "../../components/InputField/InputField";
 export default function ()
 {
   
-  const [loading, setloading] = useState(true)
-  //const [user, setUser] = useState({})
-  const { user,setUser} = useContext(UserContext)
-
-  useEffect(async ()=>
-  {
-    // Fetching User Data 
-
-    let payload = await AuthentifiedFetch("/profile");
-    setUser({...payload.data, isConnected : true})
-    setloading(false)
-    
-
-
-  },[])
+  const [loading, setloading] = useState(false)
+  const { user } = useContext(UserContext)
 
 
     if(loading)

@@ -2,6 +2,8 @@ var jwt = require('jsonwebtoken');
 const config = require("../config.json")
 const API_HOST = config.host + ":" + config.port 
 
+
+
 export const VerifyToken = async (token = null)=>
 {
     let key = await getPublicKey()
@@ -30,8 +32,6 @@ export const getUserType = ()=>
 
 export const RefreshTokens = async function()
 {
-
-    
     try
     {
        

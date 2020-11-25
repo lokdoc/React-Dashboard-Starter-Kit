@@ -4,7 +4,7 @@ import * as SVGLoaders from 'svg-loaders-react';
 import "./dashboard.css";
 
 import Home from './Home/Home'
-import { UserContext, UserContextProvider} from "../../contexts/User";
+import { UserContext} from "../../contexts/User";
 
 import AuthentifiedFetch from "../../utils/AuthentifiedFetch"
 
@@ -39,28 +39,21 @@ export default function()
 
   const [islogout, setLogout] = useState(false)
   const { user,setUser} = useContext(UserContext)
+
   let match = {path:"/dashboard"}
 
-  useEffect(async() => {
-   
-    // Updating userProfile on Context
-    let payload = await AuthentifiedFetch("/profile");
-    setUser({...payload.data, isConnected : true})
-
-  },[])
 
 
+    let  signOut = () => 
+    {
+      localStorage.removeItem("access-token");
+      localStorage.removeItem("refresh-token");
+      setUser({isConnected:false})
+      setLogout(true)
+    };
 
-  let  signOut = () => 
-  {
-    localStorage.removeItem("access-token");
-    localStorage.removeItem("refresh-token");
-    setLogout(true)
-  };
 
-
-
-    if (islogout) 
+    if (!user.isConnected) 
     {
       return <Redirect to="/login" />;
     }
@@ -71,8 +64,6 @@ export default function()
       <div className="dashboard">
 
         <div className="navbar">
-    
-       
         <ul>
 
           <li className="brand">
@@ -90,10 +81,10 @@ export default function()
           (<li className="btn">
             <Link to={`${match.path}/users`}>Users Management</Link>
           </li>):null}
-          
+           
           <li className="push-right">
           <div className="dropdown">
-          <button className="dropbtn">{user.lastname}  {user.firstname} <b>[ {getUserType().toUpperCase()} ]</b></button>
+          <button className="dropbtn">{user.lastname}  {user.firstname} <b>[ {user.type} ]</b></button>
                 <div className="dropdown-content">
                
                 <Link to={`${match.path}/profile`}>My Account</Link>

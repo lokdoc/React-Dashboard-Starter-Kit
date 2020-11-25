@@ -16,40 +16,35 @@ import { UserContextProvider } from "./contexts/User";
 
 export default function App() {
   return (
-   
+    <UserContextProvider>
         <Router>
 
           <Switch>
         
-              <Route path="/login">
-                <UserContextProvider>
-                      <Login />
-                      </UserContextProvider>
-              </Route>
-              <Route path="/register">
-                <Register />
-              </Route>
+            <Route path="/login">
+              <Login />
+            </Route>
             
-
-           
-                <ProtectedRoute path="/dashboard">
-                  <UserContextProvider>
-                    <Dashboard />
-                  </UserContextProvider>
-                </ProtectedRoute>
-        
+            <Route path="/register">
+              <Register />
+            </Route>
+          
+            <ProtectedRoute path="/dashboard">
+              <Dashboard />
+            </ProtectedRoute>
+            
 
             <Route exact path="/">
               <Redirect exact from="/" to="dashboard" />
             </Route>
-            
+          
             <Route path="*">
               <Redirect from="/" to="dashboard" />
             </Route>
-
-        
+      
           </Switch>
         </Router>
+      </UserContextProvider>
    
   );
 }
