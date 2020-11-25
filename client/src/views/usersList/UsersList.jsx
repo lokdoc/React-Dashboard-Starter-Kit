@@ -6,26 +6,31 @@ import "./UsersList.css";
 import { UserContext } from "../../contexts/User";
 import { Bars} from 'svg-loaders-react'
 import AuthentifiedFetch from "../../utils/AuthentifiedFetch"
+import MessageBox from '../../components/MessageBox/MessageBox'
 import "./UsersList.css"
 
 export default function()
 {
   
-  const [ loading, setloading] = useState(true)
+  const [ msgBox, setMsgBox] = useState(false)
   const [ users, setUsers] = useState([])
+  const [loading,setLoading] = useState(false);
+  const [toBeRemoved,setToBeRemoved] = useState({});
+
+
   const {user} = useContext(UserContext)
 
   useEffect(async ()=>
   {
     // Fetching User Data 
     
-    setloading(true)
+    setLoading(true)
     
     let payload = await AuthentifiedFetch("/users");
     
     setUsers(payload)
     
-    setloading(false)
+    setLoading(false)
 
   },[])
 
@@ -56,7 +61,13 @@ export default function()
                 
                { user.id != id ?
                 ( 
-                <span onClick={e => RemoveUser(id) } className="icon-button">
+                <span onClick={(e) => 
+                    {
+                        setToBeRemoved(i)
+                        setMsgBox(true)
+                    }
+                
+                } className="icon-button">
                      <img height={20} src="/icons/remove-user.svg"/>
                 </span>
                 ):null
@@ -111,10 +122,28 @@ export default function()
           
 
               <div className="center">
-
-                  { GenerateList(users)}
+                 { GenerateList(users)}
               </div>
-             
+             <MessageBox 
+            isOpen={msgBox}
+            title="Remove User"
+            icon="/icons/error.svg"
+            HeaderColor="brown"
+            AcceptLabel="YES"
+            CancelLabel="NO"
+
+            onAccept={()=>{
+                RemoveUser(toBeRemoved.id)
+                setMsgBox(false)
+            }}
+            onClose={()=>setMsgBox(false)}
+         >
+           <h1>Warning</h1>
+           <p style={{fontSize:16}}>
+              Are you sure you want to delete the user <b>"{toBeRemoved.username}" ?</b> <br/>
+           </p>
+
+           </MessageBox> 
 
 
         </div>

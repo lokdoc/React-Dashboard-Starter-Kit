@@ -40,7 +40,7 @@ ul {
     font-size: 20px;
     padding:15px;
   }
-
+ 
 
   li:hover
   {
@@ -57,12 +57,12 @@ ul {
     text-align: center;
     text-decoration: none;
   }
-   
-  li a:hover {
-   
-   
-  }
-   
+  
+  a li.btn, a li.btn :visited ,a li.btn :hover,a li.btn :active
+  {
+    color:#FFF;
+  }        
+ 
   .push-right {
     float: right;
     color:#FFF;

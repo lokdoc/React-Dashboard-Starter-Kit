@@ -17,14 +17,6 @@ import { Bar } from "react-chartjs-2";
 import { getUserType } from "../../utils/Verify";
 
 
-//import Master from "./Master";
-//import Pos from "./Pos";
-//import IndexDashboard from "./IndexDashboard";
-//import NotFound from "./404";
-
-
-
-
 function NotFound()
 {
     return(
@@ -63,24 +55,47 @@ export default function()
 
       <div className="dashboard">
 
+{/*
+          // This is the next perspective of Navigation Bar Component 
+          // Two levels :  menus and actions   
+
+
+          <NavBar username=""> 
+
+            <Menu label="Home" path="/dashboard" icon="/icons/home.svg" />
+
+            <Menu visible={user.type=="admin"} label="Users List" path="/dashboard/users" >
+                <Action label="Add User" onClick={}/>
+            </Menu>
+              
+          
+          </NavBar>
+
+*/}
+
         <div className="navbar">
-        <ul>
-
-          <li className="brand">
+          <ul>
             <Link to={`${match.path}`}>
-
-          <img src="/icons/home.svg" height="35"/>
+              <li className="brand">
+                <img src="/icons/home.svg" height="35"/>
+              </li>
             </Link>
-          </li>
-
-          <li className="btn">
-            <Link to={`${match.path}`}>Home</Link>
-          </li>
+          
+            <Link to={`${match.path}`}>
+              <li className="btn"> 
+                  Home
+              </li>
+            </Link>
+      
 
           {user.type == "admin" ? 
-          (<li className="btn">
-            <Link to={`${match.path}/users`}>Users Management</Link>
-          </li>):null}
+          (
+            <Link to={`${match.path}/users`}>
+              <li className="btn">
+                  Users Management
+              </li>
+            </Link>
+          ):null}
            
           <li className="push-right">
           <div className="dropdown">
@@ -98,6 +113,9 @@ export default function()
         </ul>
 
         </div>
+       
+       
+       
         <main role="main">
           <div className="main">
 

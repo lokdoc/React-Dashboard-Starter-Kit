@@ -44,7 +44,7 @@
     
     display: inline-block;
     height: 40px;
-    width: 100%;
+    width: auto;
     padding-left: 20px;
     padding-right: 20px;
     cursor: pointer;
@@ -59,3 +59,8 @@
     cursor: pointer;
 
 }
+.messagebox input[type="button"]
+{
+    width: 50%;
+    display: inline-block;
+}   

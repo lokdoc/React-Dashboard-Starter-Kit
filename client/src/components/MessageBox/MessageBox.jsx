@@ -4,7 +4,15 @@ import Modal from 'react-modal';
 import "./MessageBox.css"
 
 
-export default function({isOpen,HeaderColor = "#333",icon,onClose,children})
+export default function({
+                            isOpen,
+                            HeaderColor = "#333",
+                            icon,
+                            onAccept,
+                            AcceptLabel,
+                            CancelLabel = "CLOSE",
+                            onClose,
+                            children})
 {
     const closeRef = useRef(null);
 
@@ -43,7 +51,9 @@ export default function({isOpen,HeaderColor = "#333",icon,onClose,children})
                     </div>
                     <div className="footer">
 
-                            <input type="button" onClick={onClose} value="CLOSE"/>
+                           
+                            <input type="button" onClick={onClose} value={CancelLabel}/>
+                            <input style={{background:"brown",color:"#fff"}} type="button" onClick={onAccept} value={AcceptLabel}/>
                     </div>
                 </div>
             
