@@ -8,6 +8,7 @@ import { Bars} from 'svg-loaders-react'
 import AuthentifiedFetch from "../../utils/AuthentifiedFetch"
 import MessageBox from '../../components/MessageBox/MessageBox'
 import "./UsersList.css"
+import FloatButton from "../../components/FloatButton/FloatButton";
 
 export default function()
 {
@@ -145,7 +146,9 @@ export default function()
 
            </MessageBox> 
 
-
+            <FloatButton icon="/icons/add-user.svg" onClick={()=>{
+                alert(" NOT IMPLEMENTED UI YET, ( Modal Dialog style) ")
+            }}/>
         </div>
     )
 }

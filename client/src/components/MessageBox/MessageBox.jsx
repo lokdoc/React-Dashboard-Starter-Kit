@@ -50,10 +50,10 @@ export default function({
                     {children}
                     </div>
                     <div className="footer">
-
-                           
-                            <input type="button" onClick={onClose} value={CancelLabel}/>
+                            <input type="button" onClick={onClose} value={CancelLabel} style={{width : (onAccept ? "50%" : "100%")}}/>
+                            {onAccept?
                             <input style={{background:"brown",color:"#fff"}} type="button" onClick={onAccept} value={AcceptLabel}/>
+                            :null}
                     </div>
                 </div>
             
