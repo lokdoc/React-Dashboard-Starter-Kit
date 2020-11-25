@@ -1,0 +1,39 @@
+version: "3.7"
+services: 
+  db:
+    image: postgres
+    environment: 
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: your-db-master-password
+    volumes: 
+            - ./db/docker_postgres_init.sql:/docker-entrypoint-initdb.d/docker_postgres_init.sql
+  pgadmin-compose:
+      image: dpage/pgadmin4
+      environment: 
+          PGADMIN_DEFAULT_EMAIL: "admin@admin.com"
+          PGADMIN_DEFAULT_PASSWORD: "admin"
+      ports: 
+          - "16543:80"
+      depends_on: 
+          - db    
+  api:
+    build: ./api-server
+    dockerfile: Dockerfile-alternate
+    volumes: 
+      - ./api-server:/usr/src/app/
+      - ./client:/usr/src/client
+    ports: 
+      - 8080:3000
+    depends_on: 
+      - db
+  client:
+    build: ./client
+    
+    volumes: 
+      - ./client:/usr/src/app/
+    ports: 
+      - 3000:3000
+    depends_on: 
+      - api
+ 

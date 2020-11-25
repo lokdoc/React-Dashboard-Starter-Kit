@@ -1,0 +1,18 @@
+FROM node:12.19
+
+# This Docker file is for Production server 
+
+WORKDIR /usr/src/app
+
+# Bundle app source
+COPY ./client ./client
+COPY ./api-server .
+
+# Install app dependencies
+RUN npm install
+RUN cd client && npm install && npm run build
+RUN npm install supervisor -g
+
+
+EXPOSE 3000
+CMD [ "supervisor", "server.js" ]
